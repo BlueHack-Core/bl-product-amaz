@@ -1,4 +1,5 @@
 from bl_product_amaz.database import DataBase
+from bson.objectid import ObjectId
 
 class US_btgs(DataBase):
     def __int__(self):
@@ -55,6 +56,22 @@ class US_btgs(DataBase):
         except Exception as e:
             print(e)
         return list(r)
+
+    def get_valid_value_by_node_id(self, node_id):
+        query={}
+        query['node_id'] = node_id
+
+        try:
+            r = self.db.us_btgs.find(query)
+        except Exception as e:
+            print(e)
+
+
+        for btg in list(r):
+            valid_value = btg['valid_value']
+            break
+
+        return valid_value
 
     def get_attrs_by_node_id(self, node_id, offset=0, limit=10):
         query = {}
