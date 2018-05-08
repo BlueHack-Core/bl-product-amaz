@@ -54,7 +54,10 @@ class AMZ_attrs(DataBase):
                     try:
                         r1 = self.db.amz_sub_attrs.find(sub_attr_query)
                         for sub_attr in list(r1):
-                            sub_attr_dic = {sub_attr['value']:sub_attr['text']}
+
+                            sub_attr_dic = {'sub_attr_code' : sub_attr_code,
+                                            'value' : sub_attr['value'],
+                                            'text':sub_attr['text']}
                             sub_attr_list.append(sub_attr_dic)
                     except Exception as e:
                         print(e)
