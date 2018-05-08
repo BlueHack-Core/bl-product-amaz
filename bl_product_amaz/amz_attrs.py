@@ -3,28 +3,40 @@ from bl_product_amaz.database import DataBase
 class AMZ_attrs(DataBase):
     def __init__(self):
         super(AMZ_attrs, self).__init__()
+        self.amz_attrs = self.db.amz_attrs
 
 
     def get_attr_dataset(self, offset=0, limit=100):
         query = {}
+        attrs = []
 
         try:
-            r = self.db.amz_attrs.find(query).skip(offset).limit(limit)
+            r = self.amz_attrs.find(query).skip(offset).limit(limit)
         except Exception as e:
             print(e)
 
-        return list(r)
+        for attr in list(r):
+            del attr['_id']
+            attrs.append(attr)
 
-    def get_attr_by_attr_code(self, attr_code, offset=0, limit=10):
+        return attrs
+
+    def get_attr_by_attr_code(self, attr_code):
         query = {}
         query['attr_code'] = attr_code
+        attrs = []
 
         try:
-            r = self.db.amz_attrs.find(query).skip(offset).limit(limit)
+            r = self.amz_attrs.find(query)
         except Exception as e:
             print(e)
 
-        return list(r)
+        for attr in list(r):
+            del attr['_id']
+            attrs.append(attr)
+
+        return attrs
+
 
     def get_sub_attr_by_attr_code(self, attr_code, offset=0, limit=10):
         query = {}
@@ -32,7 +44,7 @@ class AMZ_attrs(DataBase):
         sub_attr_list = []
 
         try:
-            r = self.db.amz_attrs.find(query)
+            r = self.amz_attrs.find(query)
             for attr in list(r):
                 sub_attrs = attr['sub_attrs']
                 for sub_attr_code in sub_attrs:
