@@ -5,17 +5,8 @@ from pprint import pprint
 api_instance = US_btgs()
 
 try:
-    offset = 0
-    limit = 10
-
-    while True:
-        res = api_instance.get_btg_by_node_id("6487833011", offset=offset, limit=limit)
-
-        if limit > len(res):
-            break
-        else:
-            offset = offset + limit
-
+    node_id = "2368343011"
+    res = api_instance.get_btg_by_node_id(node_id)
     pprint(res)
 
 except Exception as e:

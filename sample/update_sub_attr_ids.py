@@ -5,10 +5,11 @@ from pprint import pprint
 api_instance = AMZ_attrs()
 
 try:
-
-    res = api_instance.get_attr_by_attr_code("1001")
+    attr_id = "a0019"
+    sub_attr_id = "aa0001000"
+    res = api_instance.update_sub_attr_ids(attr_id, sub_attr_id)
 
     pprint(res)
 
 except Exception as e:
-    print("Exception when calling get_sub_attr_by_attr_code %s\n" % e)
+    print("Exception when calling update_sub_attr_ids %s\n" % e)
