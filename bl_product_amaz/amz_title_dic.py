@@ -6,7 +6,7 @@ class AMZ_title_dic(DataBase):
         super(AMZ_title_dic,self).__init__()
         self.amz_title_dic = self.db.amz_title_dic
 
-    def get_title_dic_database(self, offset=0, limit=10):
+    def get_title_dic_database(self, offset=0, limit=100):
         query = {}
         word_dic = []
 
@@ -20,6 +20,17 @@ class AMZ_title_dic(DataBase):
             word_dic.append(word)
 
         return word_dic
+
+    def get_dic_by_sub_attr_id(self, sub_attr_id, offset=0, limit=100):
+        query={}
+        query['sub_attr_id'] = sub_attr_id
+
+        try:
+            r = self.amz_title_dic.find(query).skip(offset).limit(limit)
+        except Exception as e:
+            print(e)
+
+        return list(r)
 
     def get_words_by_sub_attr_id(self, sub_attr_id, offset=0, limit=50):
         query = {}
@@ -47,14 +58,25 @@ class AMZ_title_dic(DataBase):
 
         return r
 
-    def add_count_by_sub_attr_id(self, sub_attr_id):
+    def add_count_by_sub_attr_dic_word(self, sub_attr_dic_word, count_up_num):
+        query = {}
+        query['sub_attr_dic_word'] = sub_attr_dic_word
+
+        try:
+            r = self.amz_title_dic.update(query, {'$inc': {'count': count_up_num}}, upsert=False, multi=False)
+        except Exception as e:
+            print(e)
+
+
+    def reset_count_to_zero_by_sub_attr_id(self, sub_attr_id):
         query = {}
         query['sub_attr_id'] = sub_attr_id
 
         try:
-            r = self.amz_title_dic.update( query, {'$inc': {'count': 1}}, upsert=False, multi=False)
+            r = self.amz_title_dic.update(query, {'$set': {'count': int(0)}}, upsert=False, multi=True)
         except Exception as e:
             print(e)
+
 
     def add_title_dic_word(self, sub_attr_id, word):
         query = {}
