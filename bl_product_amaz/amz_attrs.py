@@ -107,6 +107,7 @@ class AMZ_attrs(DataBase):
 
         return sub_attr_list
 
+
     def add_attr(self, attr_id, attr_kr_name, attr_us_name):
         attr = {}
         attr['attr_id'] = attr_id
@@ -127,6 +128,7 @@ class AMZ_attrs(DataBase):
                 print(e)
         else:
             print("attr_id is already enrolled! Please check again")
+
 
     def update_sub_attr_ids(self, attr_id, sub_attr_id):
         query = {}
